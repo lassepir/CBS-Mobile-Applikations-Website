@@ -8,6 +8,54 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js"></script>
+   <script>
+      // Funktion zur Erstellung der Säule an der aktuellen Position
+      function createCylinderAtCurrentLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              const latitude = position.coords.latitude;
+              const longitude = position.coords.longitude;
+
+              // Erstellen des A-Frame-Szenen-Elements
+              const scene = document.createElement('a-scene');
+              scene.setAttribute('vr-mode-ui', 'enabled: false');
+              scene.setAttribute('arjs', 'sourceType: webcam; videoTexture: true; debugUIEnabled: false;');
+              scene.setAttribute('renderer', 'antialias: true; alpha: true;');
+
+              // Erstellen der Kamera mit GPS-Tracking
+              const camera = document.createElement('a-camera');
+              camera.setAttribute('gps-new-camera', 'gpsMinDistance: 5');
+              scene.appendChild(camera);
+
+              // Erstellen der Säule an der aktuellen Position
+              const cylinder = document.createElement('a-cylinder');
+              cylinder.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+              cylinder.setAttribute('height', '5');
+              cylinder.setAttribute('radius', '1');
+              cylinder.setAttribute('color', 'blue');
+              scene.appendChild(cylinder);
+
+              // Hinzufügen der Szene zum Body
+              document.body.appendChild(scene);
+            },
+            function (error) {
+              alert('Fehler beim Abrufen der GPS-Position: ' + error.message);
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 5000,
+              maximumAge: 0
+            }
+          );
+        } else {
+          alert('Geolocation wird von diesem Browser nicht unterstützt.');
+        }
+      }
+
+      // Warten, bis das DOM geladen ist, und dann die Funktion ausführen
+      document.addEventListener('DOMContentLoaded', createCylinderAtCurrentLocation);
+    </script>
 </head>
 <body>
 
@@ -35,28 +83,5 @@
     </div>
   </nav>
   
-
-  <div id="ar-container">
- <a-scene
-      vr-mode-ui="enabled: false"
-      arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;"
-      renderer="antialias: true; alpha: true;"
-    >
-      <a-camera gps-new-camera="gpsMinDistance: 5"></a-camera>
-
-      <!-- Säule an spezifischer Position -->
-      <a-cylinder
-        gps-new-entity-place="latitude: 51.08466320570651; longitude: 7.039546030305912;"
-        height="5"
-        radius="1"
-        color="blue"
-      ></a-cylinder>
-
-    </a-scene>
-  </div>
-   <!-- AR.js Bereich -->
-  
-  
-
 </body>
 </html>

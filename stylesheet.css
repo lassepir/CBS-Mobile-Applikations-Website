@@ -87,3 +87,63 @@ h1 {
   z-index: -1;
   transition: background-color 0.3s ease; /* Smooth color transition */
 }
+
+/* Navigation Bar */
+#nav-bar {
+  background-color: #6200ea;
+  color: white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-list li {
+  margin: 0 15px;
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-list a:hover {
+  color: #ffcc00;
+}
+
+/* Main content positioning */
+#app {
+  margin-top: 60px; /* To offset the fixed nav bar */
+  padding: 20px;
+}
+
+#content {
+  animation: fadeIn 0.3s;
+}
+
+/* Fade in effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+

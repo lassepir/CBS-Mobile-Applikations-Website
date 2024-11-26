@@ -8,7 +8,7 @@ body {
 
 #app {
   max-width: 600px;
-  margin: 50px auto;
+  margin: 20px auto;
   background: white;
   border-radius: 10px;
   overflow: hidden;
@@ -65,26 +65,6 @@ h1 {
   left: 50%;
   transform: translateX(-50%);
   border-radius: 5px;
-  z-index: 1000;
-}
-
-.snackbar.show {
-  visibility: visible;
-  animation: fadeInOut 3s;
-}
-
-@keyframes fadeInOut {
-  0%, 80% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-.item .background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: #ff5252; /* Standardfarbe für Entfernen */
-  z-index: -1;
-  transition: background-color 0.3s ease; /* Sanfter Farbwechsel */
-}
+  z-index: 100
+::contentReference[oaicite:0]{index=0}
+ 

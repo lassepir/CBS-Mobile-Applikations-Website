@@ -1,31 +1,44 @@
 body {
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
   background-color: #f0f0f0;
   color: #333;
 }
-
+ 
+#app {
+  max-width: 600px;
+  margin: 50px auto;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+ 
 h1 {
   text-align: center;
   padding: 20px;
   background-color: #6200ea;
   color: white;
   margin: 0;
-  border-radius: 5px;
 }
-
+ 
 .item-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-
+ 
 .item {
   position: relative;
   background: #fff;
+  padding: 20px;
+  margin: 0;
+  border-bottom: 1px solid #ddd;
   overflow: hidden;
   cursor: grab;
 }
-
+ 
 .item .background {
   position: absolute;
   top: 0;
@@ -34,13 +47,12 @@ h1 {
   width: 100%;
   background: #ff5252;
   z-index: -1;
-  transition: background-color 0.3s ease;
 }
-
+ 
 .item .content {
   transition: transform 0.3s ease;
 }
-
+ 
 .snackbar {
   visibility: hidden;
   min-width: 250px;
@@ -55,13 +67,23 @@ h1 {
   border-radius: 5px;
   z-index: 1000;
 }
-
+ 
 .snackbar.show {
   visibility: visible;
   animation: fadeInOut 3s;
 }
-
+ 
 @keyframes fadeInOut {
   0%, 80% { opacity: 1; }
   100% { opacity: 0; }
+}
+.item .background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #ff5252; /* Default color for dismiss */
+  z-index: -1;
+  transition: background-color 0.3s ease; /* Smooth color transition */
 }

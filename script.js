@@ -88,3 +88,36 @@ function showSnackbar(message) {
     snackbar.className = 'snackbar';
   }, 3000);
 }
+// Pages Content
+const pages = {
+  home: `
+    <h1>Welcome to Home</h1>
+    <p>This is the home page.</p>
+  `,
+  about: `
+    <h1>About</h1>
+    <p>This is the about page.</p>
+  `,
+  settings: `
+    <h1>Settings</h1>
+    <p>This is the settings page.</p>
+  `,
+};
+
+// Function to load a page
+function loadPage(page) {
+  const content = document.getElementById('content');
+  content.innerHTML = pages[page] || `<h1>Page not found</h1>`;
+}
+
+// Initial page load
+loadPage('home');
+
+// Handle navigation
+document.querySelectorAll('.nav-list a').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const page = e.target.getAttribute('data-page');
+    loadPage(page);
+  });
+});

@@ -1,11 +1,11 @@
 const itemList = document.getElementById('item-list');
 const snackbar = document.getElementById('snackbar');
 
-// Generate initial items
+// Initiale Elemente generieren
 const items = Array.from({ length: 20 }, (_, i) => `Stolperstein ${i + 1}`);
 items.forEach(addItem);
 
-// Function to add an item to the DOM
+// Funktion zum Hinzufügen eines Elements zum DOM
 function addItem(text) {
   const li = document.createElement('li');
   li.className = 'item';
@@ -24,14 +24,14 @@ function addItem(text) {
   let startX = 0;
   let isDragging = false;
 
-  // Touch start and mouse down
+  // Touchstart und Mousedown
   function start(e) {
     startX = e.touches ? e.touches[0].clientX : e.clientX;
     isDragging = true;
     content.style.transition = 'none';
   }
 
-  // Touch move and mouse move
+  // Touchmove und Mousemove
   function move(e) {
     if (!isDragging) return;
     const currentX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -39,7 +39,7 @@ function addItem(text) {
     content.style.transform = `translateX(${dx}px)`;
   }
 
-  // Touch end and mouse up
+  // Touchend und Mouseup
   function end(e) {
     if (!isDragging) return;
     isDragging = false;
@@ -47,44 +47,18 @@ function addItem(text) {
     const dx = endX - startX;
 
     if (Math.abs(dx) > 100) {
-      // Highlight before removing
-      background.style.backgroundColor = '#4caf50'; // Highlight color
-      li.style.transition = 'transform 0.3s ease, background-color 0.3s ease';
+      // Element bei signifikantem Wischen entfernen
+      li.style.transition = 'transform 0.3s ease';
       content.style.transform = `translateX(${dx > 0 ? '100%' : '-100%'})`;
       setTimeout(() => {
         li.remove();
-        showSnackbar(`${text} dismissed`);
+        showSnackbar(`${text} entfernt`);
       }, 300);
     } else {
-      // Reset position
+      // Position zurücksetzen
       content.style.transition = 'transform 0.3s ease';
       content.style.transform = 'translateX(0)';
     }
-  }
-
-  // Show item information on click
-  function showInfo() {
-    showSnackbar(`Info: Details for ${text}`);
-  }
-
-  // Event listeners for touch and mouse
-  li.addEventListener('touchstart', start);
-  li.addEventListener('touchmove', move);
-  li.addEventListener('touchend', end);
-
-  li.addEventListener('mousedown', start);
-  window.addEventListener('mousemove', move);
-  window.addEventListener('mouseup', end);
-
-  // Click event to show information
-  li.addEventListener('click', showInfo);
-}
-
-// Function to show the snackbar
-function showSnackbar(message) {
-  snackbar.textContent = message;
-  snackbar.className = 'snackbar show';
-  setTimeout(() => {
-    snackbar.className = 'snackbar';
-  }, 3000);
-}
+ 
+::contentReference[oaicite:0]{index=0}
+ 

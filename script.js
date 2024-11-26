@@ -47,8 +47,9 @@ function addItem(text) {
     const dx = endX - startX;
 
     if (Math.abs(dx) > 100) {
-      // Remove item on significant swipe
-      li.style.transition = 'transform 0.3s ease';
+      // Highlight before removing
+      background.style.backgroundColor = '#4caf50'; // Highlight color
+      li.style.transition = 'transform 0.3s ease, background-color 0.3s ease';
       content.style.transform = `translateX(${dx > 0 ? '100%' : '-100%'})`;
       setTimeout(() => {
         li.remove();
@@ -61,6 +62,11 @@ function addItem(text) {
     }
   }
 
+  // Show item information on click
+  function showInfo() {
+    showSnackbar(`Info: Details for ${text}`);
+  }
+
   // Event listeners for touch and mouse
   li.addEventListener('touchstart', start);
   li.addEventListener('touchmove', move);
@@ -69,6 +75,9 @@ function addItem(text) {
   li.addEventListener('mousedown', start);
   window.addEventListener('mousemove', move);
   window.addEventListener('mouseup', end);
+
+  // Click event to show information
+  li.addEventListener('click', showInfo);
 }
 
 // Function to show the snackbar

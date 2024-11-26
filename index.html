@@ -1,21 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Swipe to Dismiss</title>
+  <title>Tour Brühl</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Eigene CSS-Datei -->
   <link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
-  <div id="app">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Tour Brühl</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Navigation umschalten">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Stolpersteine</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Karte</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hauptinhalt -->
+  <div id="app" class="container mt-4">
     <h1>Tour Brühl</h1>
     <ul id="item-list" class="item-list">
-      <!-- JavaScript will populate this list -->
+      <!-- JavaScript wird diese Liste füllen -->
     </ul>
-    <div id="snackbar" class="snackbar">Item dismissed</div>
+    <div id="snackbar" class="snackbar">Element entfernt</div>
   </div>
- <script src="script.js"></script>
+
+  <!-- Bootstrap JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Eigene JavaScript-Datei -->
+  <script src="script.js"></script>
 </body>
 </html>
-
-

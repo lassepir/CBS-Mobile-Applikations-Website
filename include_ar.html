@@ -29,6 +29,20 @@
         </ul>
       </div>
     </div>
+     <!-- AR.js Bereich -->
+  <div id="ar-container">
+    <h2 style="text-align: center;">AR Experience</h2>
+    <a-scene
+      embedded
+      arjs="trackingMethod: best;"
+      id="ar-scene">
+      <!-- Hinzufügen eines Markers -->
+      <a-marker preset="hiro">
+        <a-box position="0 0.5 0" material="color: red;"></a-box>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </div>
   </nav>
   <div style="width: 100%" class="container">
     <a-scene embedded arjs>

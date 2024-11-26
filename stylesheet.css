@@ -77,3 +77,13 @@ h1 {
   0%, 80% { opacity: 1; }
   100% { opacity: 0; }
 }
+.item .background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #ff5252; /* Default color for dismiss */
+  z-index: -1;
+  transition: background-color 0.3s ease; /* Smooth color transition */
+}

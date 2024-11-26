@@ -1,14 +1,14 @@
 const itemList = document.getElementById('item-list');
 const snackbar = document.getElementById('snackbar');
 
-// Initiale Elemente generieren
+// Generate initial items
 const items = Array.from({ length: 20 }, (_, i) => `Stolperstein ${i + 1}`);
 items.forEach(addItem);
 
-// Funktion zum Hinzufügen eines Elements zum DOM
+// Function to add an item to the DOM
 function addItem(text) {
   const li = document.createElement('li');
-  li.className = 'item';
+  li.className = 'list-group-item item';
 
   const background = document.createElement('div');
   background.className = 'background';
@@ -24,14 +24,14 @@ function addItem(text) {
   let startX = 0;
   let isDragging = false;
 
-  // Touchstart und Mousedown
+  // Touch start and mouse down
   function start(e) {
     startX = e.touches ? e.touches[0].clientX : e.clientX;
     isDragging = true;
     content.style.transition = 'none';
   }
 
-  // Touchmove und Mousemove
+  // Touch move and mouse move
   function move(e) {
     if (!isDragging) return;
     const currentX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -39,7 +39,7 @@ function addItem(text) {
     content.style.transform = `translateX(${dx}px)`;
   }
 
-  // Touchend und Mouseup
+  // Touch end and mouse up
   function end(e) {
     if (!isDragging) return;
     isDragging = false;
@@ -47,18 +47,60 @@ function addItem(text) {
     const dx = endX - startX;
 
     if (Math.abs(dx) > 100) {
-      // Element bei signifikantem Wischen entfernen
+      // Remove item on significant swipe
       li.style.transition = 'transform 0.3s ease';
       content.style.transform = `translateX(${dx > 0 ? '100%' : '-100%'})`;
       setTimeout(() => {
         li.remove();
-        showSnackbar(`${text} entfernt`);
+        showSnackbar(`${text} dismissed`);
       }, 300);
     } else {
-      // Position zurücksetzen
+      // Reset position
       content.style.transition = 'transform 0.3s ease';
       content.style.transform = 'translateX(0)';
     }
- 
-::contentReference[oaicite:0]{index=0}
- 
+  }
+
+  // Event listeners for touch and mouse
+  content.addEventListener('touchstart', start);
+  content.addEventListener('touchmove', move);
+  content.addEventListener('touchend', end);
+
+  content.addEventListener('mousedown', start);
+  window.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+}
+
+// Function to show the snackbar
+function showSnackbar(message) {
+  snackbar.textContent = message;
+  snackbar.className = 'snackbar show';
+  setTimeout(() => {
+    snackbar.className = 'snackbar';
+  }, 3000);
+}
+
+// Navigation
+document.getElementById('nav-index').addEventListener('click', function(e) {
+  e.preventDefault();
+  showPage('index');
+});
+
+document.getElementById('nav-maps').addEventListener('click', function(e) {
+  e.preventDefault();
+  showPage('maps');
+});
+
+function showPage(page) {
+  if (page === 'index') {
+    document.getElementById('index-page').style.display = 'block';
+    document.getElementById('maps-page').style.display = 'none';
+    document.querySelector('.nav-item.active').classList.remove('active');
+    document.getElementById('nav-index').parentElement.classList.add('active');
+  } else if (page === 'maps') {
+    document.getElementById('index-page').style.display = 'none';
+    document.getElementById('maps-page').style.display = 'block';
+    document.querySelector('.nav-item.active').classList.remove('active');
+    document.getElementById('nav-maps').parentElement.classList.add('active');
+  }
+}

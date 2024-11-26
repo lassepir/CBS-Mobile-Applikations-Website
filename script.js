@@ -2,7 +2,7 @@ const itemList = document.getElementById('item-list');
 const snackbar = document.getElementById('snackbar');
 
 // Generate initial items
-const items = Array.from({ length: 20 }, (_, i) => Stolperstein ${i + 1});
+const items = Array.from({ length: 20 }, (_, i) => `Stolperstein ${i + 1}`);
 items.forEach(addItem);
 
 // Function to add an item to the DOM
@@ -36,7 +36,7 @@ function addItem(text) {
     if (!isDragging) return;
     const currentX = e.touches ? e.touches[0].clientX : e.clientX;
     const dx = currentX - startX;
-    content.style.transform = translateX(${dx}px);
+    content.style.transform = `translateX(${dx}px)`;
   }
 
   // Touch end and mouse up
@@ -47,18 +47,24 @@ function addItem(text) {
     const dx = endX - startX;
 
     if (Math.abs(dx) > 100) {
-      // Remove item on significant swipe
-      li.style.transition = 'transform 0.3s ease';
-      content.style.transform = translateX(${dx > 0 ? '100%' : '-100%'});
+      // Highlight before removing
+      background.style.backgroundColor = '#4caf50'; // Highlight color
+      li.style.transition = 'transform 0.3s ease, background-color 0.3s ease';
+      content.style.transform = `translateX(${dx > 0 ? '100%' : '-100%'})`;
       setTimeout(() => {
         li.remove();
-        showSnackbar(${text} dismissed);
+        showSnackbar(`${text} dismissed`);
       }, 300);
     } else {
       // Reset position
       content.style.transition = 'transform 0.3s ease';
       content.style.transform = 'translateX(0)';
     }
+  }
+
+  // Show item information on click
+  function showInfo() {
+    showSnackbar(`Info: Details for ${text}`);
   }
 
   // Event listeners for touch and mouse
@@ -69,6 +75,9 @@ function addItem(text) {
   li.addEventListener('mousedown', start);
   window.addEventListener('mousemove', move);
   window.addEventListener('mouseup', end);
+
+  // Click event to show information
+  li.addEventListener('click', showInfo);
 }
 
 // Function to show the snackbar

@@ -8,35 +8,48 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js"></script>
-   <script>
-      // Funktion zur Erstellung der Säule an der aktuellen Position
-      function createCylinderAtCurrentLocation() {
+     <script>
+      function createCylindersNearCurrentLocation() {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             function (position) {
               const latitude = position.coords.latitude;
               const longitude = position.coords.longitude;
 
+              console.log(`GPS-Daten: Breitengrad=${latitude}, Längengrad=${longitude}`);
+
               // Erstellen des A-Frame-Szenen-Elements
               const scene = document.createElement('a-scene');
               scene.setAttribute('vr-mode-ui', 'enabled: false');
-              scene.setAttribute('arjs', 'sourceType: webcam; videoTexture: true; debugUIEnabled: false;');
+              scene.setAttribute('arjs', 'sourceType: webcam; videoTexture: true; debugUIEnabled: true;');
               scene.setAttribute('renderer', 'antialias: true; alpha: true;');
 
-              // Erstellen der Kamera mit GPS-Tracking
+              // Kamera mit GPS-Tracking
               const camera = document.createElement('a-camera');
-              camera.setAttribute('gps-new-camera', 'gpsMinDistance: 5');
+              camera.setAttribute('gps-new-camera', 'gpsMinDistance: 1;');
               scene.appendChild(camera);
 
-              // Erstellen der Säule an der aktuellen Position
-              const cylinder = document.createElement('a-cylinder');
-              cylinder.setAttribute('gps-new-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-              cylinder.setAttribute('height', '5');
-              cylinder.setAttribute('radius', '1');
-              cylinder.setAttribute('color', 'blue');
-              scene.appendChild(cylinder);
+              // Positionen für die 5 Säulen berechnen
+              const positions = [
+                { lat: latitude + 0.0001, lng: longitude }, // Nördlich
+                { lat: latitude - 0.0001, lng: longitude }, // Südlich
+                { lat: latitude, lng: longitude + 0.0001 }, // Östlich
+                { lat: latitude, lng: longitude - 0.0001 }, // Westlich
+                { lat: latitude + 0.00005, lng: longitude + 0.00005 }, // Nordöstlich
+              ];
 
-              // Hinzufügen der Szene zum Body
+              // Säulen an den berechneten Positionen erstellen
+              positions.forEach((pos, index) => {
+                const cylinder = document.createElement('a-cylinder');
+                cylinder.setAttribute('gps-new-entity-place', `latitude: ${pos.lat}; longitude: ${pos.lng};`);
+                cylinder.setAttribute('height', '5');
+                cylinder.setAttribute('radius', '1');
+                cylinder.setAttribute('color', `#${Math.floor(Math.random() * 16777215).toString(16)}`); // Zufällige Farbe
+                cylinder.setAttribute('id', `cylinder-${index}`);
+                scene.appendChild(cylinder);
+              });
+
+              // Szene hinzufügen
               document.body.appendChild(scene);
             },
             function (error) {
@@ -45,7 +58,7 @@
             {
               enableHighAccuracy: true,
               timeout: 5000,
-              maximumAge: 0
+              maximumAge: 0,
             }
           );
         } else {
@@ -53,8 +66,7 @@
         }
       }
 
-      // Warten, bis das DOM geladen ist, und dann die Funktion ausführen
-      document.addEventListener('DOMContentLoaded', createCylinderAtCurrentLocation);
+      document.addEventListener('DOMContentLoaded', createCylindersNearCurrentLocation);
     </script>
 </head>
 <body>
@@ -82,6 +94,8 @@
       </div>
     </div>
   </nav>
-  
+  <div style="position: absolute; top: 10px; left: 10px; z-index: 1000; background: white; padding: 5px; border-radius: 5px;">
+  <strong>Debug-Ausgabe:</strong>
+  <div id="debug"></div>
 </body>
 </html>
